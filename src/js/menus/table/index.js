@@ -44,36 +44,50 @@ Table.prototype = {
                     // 标题
                     title: '插入表格',
                     // 模板
-                    tpl: `<div>
-                        <div>1</div>
-                        <p style="text-align:left; padding:5px 0;">
-                            创建
-                            <input id="${textRowNum}" type="text" value="5" style="width:40px;text-align:center;"/>
-                            行
-                            <input id="${textColNum}" type="text" value="5" style="width:40px;text-align:center;"/>
-                            列的表格
-                        </p>
-                        <div class="w-e-button-container">
-                            <button id="${btnInsertId}" class="right">插入</button>
-                        </div>
-                    </div>`,
+                    tpl: [1, 2, 3, 4, 5, 6].reduce((prev, current, index) => {
+
+                      let rowsEle = '';
+                      for (let i = 1; i <= 10; i++) {
+                        rowsEle += `<div class="menu-cell" data-grid=${current},${i}></div>`
+                      }
+
+                      prev.element += `<div class="table-menu-row">${rowsEle}</div>`;
+                      if (index === 5) {
+                        return prev.wrapper[0] + prev.element + prev.wrapper[1];
+                      }
+                      return prev;
+
+                    }, { wrapper: ['<div class="table-menu-box">', '</div>'], element: '' }),
                     // 事件绑定
                     events: [
                         {
                             // 点击按钮，插入表格
-                            selector: '#' + btnInsertId,
+                            selector: '.menu-cell',
                             type: 'click',
-                            fn: () => {
-                                const rowNum = parseInt($('#' + textRowNum).val())
-                                const colNum = parseInt($('#' + textColNum).val())
-
-                                if (rowNum && colNum && rowNum > 0 && colNum > 0) {
-                                    // form 数据有效
-                                    this._insert(rowNum, colNum)
-                                }
+                            fn: (e) => {
+                                const { grid } = e.target.dataset;
+                                const [row, col] = grid.split(',');
+                                this._insert(+row, +col)
 
                                 // 返回 true，表示该事件执行完之后，panel 要关闭。否则 panel 不会关闭
                                 return true
+                            }
+                        },
+                        {
+                            // 点击按钮，插入表格
+                            selector: '.menu-cell',
+                            type: 'mouseenter',
+                            fn: (e) => {
+                              const { grid } = e.target.dataset;
+                              const [row, col] = grid.split(',');
+                              [...document.querySelectorAll('.table-menu-box .menu-cell')].forEach(dom => {
+                                const [currentRow, currentCol] = dom.dataset.grid.split(',');
+                                if (+currentRow <= +row && +currentCol <= +col) {
+                                  dom.classList.add('cell-hover');
+                                } else {
+                                  dom.classList.remove('cell-hover');
+                                }
+                              })
                             }
                         }
                     ]
@@ -82,7 +96,10 @@ Table.prototype = {
         }) // panel end
 
         // 展示 panel
-        panel.show()
+        panel.show();
+        // document.querySelector('.aa1').addEventListener('mousemove', ()=> {
+        //   console.log(1111111,2)
+        // })
 
         // 记录属性
         this.panel = panel
