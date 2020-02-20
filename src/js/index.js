@@ -1,12 +1,18 @@
-import polyfill from './util/poly-fill.js'
-import Editor from './editor/index.js'
+import polyfill from './util/poly-fill.js';
+import Editor from './editor/index.js';
+import '../style/common.less';
+import '../style/droplist.less';
+import '../style/icon.less';
+import '../style/menus.less';
+import '../style/panel.less';
+import '../style/text.less';
 
 // 检验是否浏览器环境
 try {
-    document
+  document;
 } catch (ex) {
-    throw new Error('请在浏览器环境下运行')
-} 
+  throw new Error('请在浏览器环境下运行');
+}
 
 // polyfill
 polyfill()

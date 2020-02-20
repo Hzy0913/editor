@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import E from '../../src'
+import Editor from '../../src';
 
 
 
 class App extends Component {
   state = {
-    editorContent: ''
+    editorContent: '<h1>hello wold~</h1>'
   }
 
   clickHandle() {
@@ -14,21 +14,30 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const elem = this.refs.editorElem;
-
-    const editor = new E(elem);
-    editor.customConfig.onchange = html => {
-      this.setState({
-        editorContent: html
-      });
-    };
-    editor.create();
 
   }
 
+  changeContent = () => {
+    this.setState({ editorContent: '<h1>hello~</h1>' });
+  }
+
+  onChange = (content) => {
+    console.log(content, 11112)
+    this.setState({ editorContent: content });
+  }
+
   render() {
+    const { editorContent } = this.state;
     return (
-      <div ref="editorElem" style={{textAlign: 'left'}} />
+      <div>
+        <Editor
+          onChange={this.onChange}
+          content={editorContent}
+        >
+          <p>啦啦啦</p>
+        </Editor>
+        <button onClick={this.changeContent}>change</button>
+      </div>
     );
   }
 }
