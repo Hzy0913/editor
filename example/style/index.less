@@ -1,0 +1,88 @@
+.home-container{
+  background: #2f495e;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  .center{
+    width: 400px;
+    position: fixed;
+    left: 50%;
+    margin-left: -200px;
+    top: 50%;
+    margin-top: -150px;
+  }
+  .logo{
+    width: 164px;
+    height: 164px;
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background-image: url("http://img.binlive.cn/upload/1581239341293mutants-logo.png");
+    background-size: 65%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #26374c;
+  }
+  h1{
+    color: #fff;
+    text-align: center;
+    font-size: 32px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+    height: 60px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: 30px;
+  }
+  .logo-box{
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    display: block;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 2px 4px 2px rgba(0,0,0,0.1);
+    &:before{
+      animation: bounce 8s infinite;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+      background-color: rgba(255, 255, 255, 1);
+      width: 100%;
+      height: 6px;
+      display: block;
+      content: '';
+      z-index: 9;
+      border-radius: 50%;
+      position: relative;
+    }
+  }
+}
+
+@keyframes bounce {
+  0% {
+    opacity: 0;
+    transform: translate3d(-90px, -20px, 0px) rotate3d(0, 0, 1, -45deg);
+  }
+  30% {
+    opacity: .2
+
+  }
+  40% {
+    opacity: .4;
+    height: 10px
+  }
+  55% {
+    opacity: 0;
+    transform: translate3d(130px, 200px, 40px) rotate3d(0, 0, 1, -45deg)
+  }
+  60% {
+    opacity: 0
+  }
+  65% {
+    opacity: 0
+  }
+  100% {
+    transform: translate3d(130px, 200px, 40px) rotate3d(0, 0, 1, -45deg)
+  }
+}
