@@ -15,7 +15,7 @@ Command.prototype = {
     constructor: Command,
 
     // 执行命令
-    do: function (name, value) {
+    do: function (name, value, callback) {
         const editor = this.editor
 
         // 使用 styleWithCSS
@@ -39,7 +39,7 @@ Command.prototype = {
             this[_name](value)
         } else {
             // 默认 command
-            this._execCommand(name, value)
+            this._execCommand(name, value, callback)
         }
 
         // 修改菜单状态
@@ -68,7 +68,7 @@ Command.prototype = {
         } else if (range.pasteHTML) {
             // IE <= 10
             range.pasteHTML(html)
-        } 
+        }
     },
 
     // 插入 elem
@@ -83,8 +83,11 @@ Command.prototype = {
     },
 
     // 封装 execCommand
-    _execCommand: function (name, value) {
+    _execCommand: function (name, value, callback) {
         document.execCommand(name, false, value)
+
+        callback && callback(name, value);
+
     },
 
     // 封装 document.queryCommandValue

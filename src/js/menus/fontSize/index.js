@@ -9,7 +9,7 @@ import DropList from '../droplist.js'
 function FontSize(editor) {
     this.editor = editor
     this.$elem = $(`<div class="w-e-menu">
-        <div>12px</div>
+        <div class="menu-font-size">12px</div>
         <i class="w-e-icon-text-heigh"></i>
     </div>`)
     this.type = 'droplist'
@@ -50,7 +50,10 @@ FontSize.prototype = {
             (function findElement(container) {
                 if (!container) return;
                 const eleStyle = container?.firstChild?.style;
-                eleStyle && eleStyle.fontSize && (eleStyle.fontSize = value);
+                if (eleStyle && eleStyle.fontSize) {
+                    eleStyle.fontSize = value;
+                    document.querySelector('.menu-font-size').innerHTML = value;
+                }
                 if (container === endContainer) return;
                 findElement(container.nextElementSibling);
             })(startContainer);
