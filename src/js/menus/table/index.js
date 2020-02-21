@@ -102,6 +102,8 @@ Table.prototype = {
                             selector: '.table-menu-wrapper',
                             type: 'mouseleave',
                             fn: (e) => {
+                              document.querySelector('.table-count-preview').innerHTML = `0行 x 0列`;
+
                               [...document.querySelectorAll('.table-menu-box .cell-hover')].forEach(dom => {
                                 dom.classList.remove('cell-hover');
                               })
