@@ -8,7 +8,10 @@ import DropList from '../droplist.js'
 // 构造函数
 function FontSize(editor) {
     this.editor = editor
-    this.$elem = $('<div class="w-e-menu"><i class="w-e-icon-text-heigh"></i></div>')
+    this.$elem = $(`<div class="w-e-menu">
+        <div>12px</div>
+        <i class="w-e-icon-text-heigh"></i>
+    </div>`)
     this.type = 'droplist'
 
     // 当前是否 active 状态
@@ -20,12 +23,12 @@ function FontSize(editor) {
         $title: $('<p>字号</p>'),
         type: 'list', // droplist 以列表形式展示
         list: [
-            { $elem: $('<span style="font-size: x-small;">x-small</span>'), value: '1' },
-            { $elem: $('<span style="font-size: small;">small</span>'), value: '2' },
-            { $elem: $('<span>normal</span>'), value: '3' },
-            { $elem: $('<span style="font-size: large;">large</span>'), value: '4' },
-            { $elem: $('<span style="font-size: x-large;">x-large</span>'), value: '5' },
-            { $elem: $('<span style="font-size: xx-large;">xx-large</span>'), value: '6' }
+            { $elem: $('<span style="font-size: x-small;">12px</span>'), value: '12px' },
+            { $elem: $('<span style="font-size: small;">14px</span>'), value: '14px' },
+            { $elem: $('<span>16px</span>'), value: '16px' },
+            { $elem: $('<span style="font-size: large;">18px</span>'), value: '18px' },
+            { $elem: $('<span style="font-size: x-large;">20px</span>'), value: '20px' },
+            { $elem: $('<span style="font-size: xx-large;">24px</span>'), value: '24px' }
         ],
         onClick: (value) => {
             // 注意 this 是指向当前的 FontSize 对象
@@ -41,7 +44,17 @@ FontSize.prototype = {
     // 执行命令
     _command: function (value) {
         const editor = this.editor
-        editor.cmd.do('fontSize', value)
+        console.log(editor.selection, value, 1)
+        editor.cmd.do('fontSize', '1', () => {
+            const { startContainer, endContainer } = editor.selection.getRange();
+            (function findElement(container) {
+                if (!container) return;
+                const eleStyle = container?.firstChild?.style;
+                eleStyle && eleStyle.fontSize && (eleStyle.fontSize = value);
+                if (container === endContainer) return;
+                findElement(container.nextElementSibling);
+            })(startContainer);
+        });
     }
 }
 
