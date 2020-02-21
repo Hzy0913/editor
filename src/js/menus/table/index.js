@@ -44,7 +44,7 @@ Table.prototype = {
                     // 标题
                     title: '插入表格',
                     // 模板
-                    tpl: [1, 2, 3, 4, 5, 6].reduce((prev, current, index) => {
+                    tpl: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].reduce((prev, current, index) => {
 
                       let rowsEle = '';
                       for (let i = 1; i <= 10; i++) {
@@ -52,8 +52,13 @@ Table.prototype = {
                       }
 
                       prev.element += `<div class="table-menu-row">${rowsEle}</div>`;
-                      if (index === 5) {
-                        return prev.wrapper[0] + prev.element + prev.wrapper[1];
+                      if (index === 9) {
+                        return `${prev.wrapper[0]}
+                            <div class="table-count-preview">0行 x 0列</div>
+                            <div class="table-menu-wrapper">
+                                ${prev.element}
+                            </div>
+                        ${prev.wrapper[1]}`;
                       }
                       return prev;
 
@@ -74,12 +79,14 @@ Table.prototype = {
                             }
                         },
                         {
-                            // 点击按钮，插入表格
+                            // 鼠标划过表格预览区
                             selector: '.menu-cell',
                             type: 'mouseenter',
                             fn: (e) => {
                               const { grid } = e.target.dataset;
                               const [row, col] = grid.split(',');
+                              document.querySelector('.table-count-preview').innerHTML = `${row}行 x ${col}列`;
+
                               [...document.querySelectorAll('.table-menu-box .menu-cell')].forEach(dom => {
                                 const [currentRow, currentCol] = dom.dataset.grid.split(',');
                                 if (+currentRow <= +row && +currentCol <= +col) {
@@ -87,9 +94,19 @@ Table.prototype = {
                                 } else {
                                   dom.classList.remove('cell-hover');
                                 }
+                              });
+                            }
+                        },
+                        {
+                            // 点击按钮，插入表格
+                            selector: '.table-menu-wrapper',
+                            type: 'mouseleave',
+                            fn: (e) => {
+                              [...document.querySelectorAll('.table-menu-box .cell-hover')].forEach(dom => {
+                                dom.classList.remove('cell-hover');
                               })
                             }
-                        }
+                        },
                     ]
                 } // first tab end
             ]  // tabs end
@@ -97,9 +114,6 @@ Table.prototype = {
 
         // 展示 panel
         panel.show();
-        // document.querySelector('.aa1').addEventListener('mousemove', ()=> {
-        //   console.log(1111111,2)
-        // })
 
         // 记录属性
         this.panel = panel
