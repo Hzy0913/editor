@@ -44,18 +44,33 @@ FontSize.prototype = {
     // 执行命令
     _command: function (value) {
         const editor = this.editor
-        console.log(editor.selection, value, 1)
         editor.cmd.do('fontSize', '1', () => {
             const { startContainer, endContainer } = editor.selection.getRange();
             (function findElement(container) {
                 if (!container) return;
-                const eleStyle = container?.firstChild?.style;
+                // 找到span元素
+                const findSpan = {
+                    P: 'firstChild',
+                    SPAN: null,
+                    '#text': 'parentNode'
+                }
+                const findType = findSpan[container.nodeName];
+                const spanContainer = findType ? container[findType] : container;
+                const eleStyle = spanContainer?.style;
                 if (eleStyle && eleStyle.fontSize) {
                     eleStyle.fontSize = value;
                     document.querySelector('.menu-font-size').innerHTML = value;
                 }
+
                 if (container === endContainer) return;
-                findElement(container.nextElementSibling);
+
+                // 找到p元素
+                function findP(element) {
+                    if (element && element.nodeName === 'P') return element;
+                    findP(element.ParentNode);
+                }
+
+                findElement(findP(container).nextElementSibling);
             })(startContainer);
         });
     }
