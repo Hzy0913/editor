@@ -70,7 +70,10 @@ FontSize.prototype = {
                     }
                 });
 
-                if (container === endContainer) return; // 当前元素等于最后元素不再递归
+                // 当前元素等于最后元素不再递归
+                if (container === endContainer) {
+                    return document.querySelector('.menu-font-size').innerHTML = value;
+                }
 
                 setElementFontSize(wrapperElem.nextElementSibling);
             })(startContainer);
