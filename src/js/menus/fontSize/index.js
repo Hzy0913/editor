@@ -46,31 +46,33 @@ FontSize.prototype = {
         const editor = this.editor
         editor.cmd.do('fontSize', '1', () => {
             const { startContainer, endContainer } = editor.selection.getRange();
-            (function findElement(container) {
+            const endNode = endContainer;
+            (function setElementFontSize(container) {
                 if (!container) return;
-                // 找到span元素
-                const findSpan = {
-                    P: 'firstChild',
-                    SPAN: null,
-                    '#text': 'parentNode'
-                }
-                const findType = findSpan[container.nodeName];
-                const spanContainer = findType ? container[findType] : container;
-                const eleStyle = spanContainer?.style;
-                if (eleStyle && eleStyle.fontSize) {
-                    eleStyle.fontSize = value;
-                    document.querySelector('.menu-font-size').innerHTML = value;
-                }
 
-                if (container === endContainer) return;
+                // 找到外层包裹元素元素
+                const wrapperElementNames = ['P', 'DIV', 'TH', 'PRE'];
+                let wrapperElem;
 
-                // 找到p元素
-                function findP(element) {
-                    if (element && element.nodeName === 'P') return element;
-                    findP(element.ParentNode);
-                }
+                (function findWrapperElem(elem) {
+                    if (wrapperElementNames.includes(elem.nodeName)) {
+                        return wrapperElem = elem;
+                    }
 
-                findElement(findP(container).nextElementSibling);
+                    findWrapperElem(elem.parentElement);
+                })(container);
+
+                // 查询所有被改动过的span元素 设置fontSize
+                const childSpans = wrapperElem.querySelectorAll('span');
+                [...childSpans].forEach(child => {
+                    if (child.style.fontSize === 'x-small') {
+                        child.style.fontSize = value;
+                    }
+                });
+
+                if (container === endContainer) return; // 当前元素等于最后元素不再递归
+
+                setElementFontSize(wrapperElem.nextElementSibling);
             })(startContainer);
         });
     }
