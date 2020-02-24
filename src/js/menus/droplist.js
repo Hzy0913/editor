@@ -49,6 +49,7 @@ function DropList(menu, opt) {
             $li.append($elem)
             $list.append($li)
             $li.on('click', e => {
+                return;
                 onClick(value)
 
                 // 隐藏
@@ -58,6 +59,27 @@ function DropList(menu, opt) {
             })
         }
     })
+
+    // 插入底部操作区
+    const { $bottom, $bottomOnClick } = opt;
+    if ($bottom) {
+        const $bottomElem = $($bottom);
+
+        $bottomElem.on('click', e => {
+            // e.stopPropagation();
+            // e.preventDefault();
+
+            $bottomOnClick && $bottomOnClick(e)
+
+
+        });
+
+        $container.append($bottomElem);
+    }
+
+
+
+
 
     // 绑定隐藏事件
     $container.on('mouseleave', e => {
@@ -123,6 +145,8 @@ DropList.prototype = {
         }
         // 隐藏并需改属性
         $container.hide()
+        const inputElement = document.querySelector('.custom-set-color-input');
+        inputElement && (inputElement.value = '');
         this._show = false
     }
 }
