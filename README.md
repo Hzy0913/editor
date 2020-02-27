@@ -1,2 +1,1 @@
-## tplus-cli
 # editor
