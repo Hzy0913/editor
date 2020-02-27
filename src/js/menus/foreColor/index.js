@@ -25,9 +25,33 @@ function ForeColor(editor) {
         list: colors.map(color => {
             return { $elem: $(`<i style="color:${color};" class="w-e-icon-pencil2"></i>`), value: color }
         }),
+        $bottom: `<div class="custom-set-color">
+            <input type="text" class="custom-set-color-input">
+            <button>确定</button>
+        </div>`,
         onClick: (value) => {
             // 注意 this 是指向当前的 ForeColor 对象
+            console.log(value)
             this._command(value)
+        },
+        $bottomOnClick: (e) => {
+            const { target } = e;
+
+            if (target.nodeName === 'BUTTON') {
+                const { value } = document.querySelector('.custom-set-color-input');
+                const divElement = document.createElement('div');
+                divElement.style.color = value;
+
+                if (!divElement.style.color) {
+                    alert('颜色不正确')
+                }
+
+                console.log(divElement.style.color,value, 11111)
+                this._command(value);
+            }
+
+
+            console.log(target)
         }
     })
 }
