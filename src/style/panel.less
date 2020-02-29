@@ -55,7 +55,7 @@
             input,textarea,button {
                 &:focus {
                     outline: none;
-                }   
+                }
             }
             textarea {
                 width: 100%;
@@ -121,11 +121,38 @@
                 button:hover {
                     background-color: #f1f1f1;
                 }
-            } 
+            }
             .w-e-button-container:after {
                 content: "";
                 display: table;
                 clear: both;
+            }
+            .table-menu-box{
+              width: 220px;
+              height: 220px;
+              .table-menu-wrapper{
+                width: 220px;
+                height: 220px;
+              }
+              .table-count-preview{
+                color: #666;
+                font-size: 12px;
+                height: 20px;
+              }
+              .table-menu-row{
+                height: 20px;
+                .menu-cell{
+                  width: 19px;
+                  height: 19px;
+                  float: left;
+                  background: #f7f8f9;
+                  margin: 1px;
+                  border: 1px solid #f2f2f25c;
+                  &.cell-hover{
+                    background: #0b6cbc;
+                  }
+                }
+              }
             }
         }
 
