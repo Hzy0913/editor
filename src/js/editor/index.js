@@ -287,7 +287,78 @@ Editor.prototype = {
             const { target } = e || {};
 
             if (target.tagName === 'IMG') {
-                
+
+                const { src } = target;
+                const imgWrapper = document.createElement('p');
+                // imgWrapper.appendChild(target);
+                const imgParent = target.parentElement;
+                imgParent.removeChild(target);// need delete
+
+
+
+                const el = $(`<p style="position: relative;display:inline-block">
+                    <span
+                     id="icond"
+                      style="width: 20px;height: 20px; background: red; display: inline-block;
+                      position: absolute;right: 0px; bottom: 0"
+                      ></span>
+                    <img src=${src} id="imgsettt">
+                </p>`)
+                console.log(el, 333311)
+
+                $(imgParent).append(el)
+
+
+
+                var disX = 0;//鼠标按下时光标的X值
+                var disY = 0;//鼠标按下时光标的Y值
+                var disW = 0; //拖拽前div的宽
+                var disH = 0; // 拖拽前div的高
+
+
+                var flag = false;
+                const oPanel = document.getElementById('imgsettt');
+                document.getElementById('icond').addEventListener('mouseup', (ev) => {
+                    flag = true;
+                })
+
+                document.getElementById('icond').addEventListener('mousedown', (ev) => {
+                    var ev = ev || window.event;
+                    disX = ev.clientX; // 获取鼠标按下时光标x的值
+                    disY = ev.clientY; // 获取鼠标按下时光标Y的值
+                    disW = oPanel.offsetWidth; // 获取拖拽前div的宽
+                    disH = oPanel.offsetHeight; // 获取拖拽前div的高
+
+                    console.log(disX, disW, 99999999)
+
+                    document.querySelector('.router-content').addEventListener('mousemove', (ev) => {
+                        if (flag) return;
+                        var ev = ev || window.event;
+                        console.log(ev, 22221111);
+
+                        //拖拽时为了对宽和高 限制一下范围，定义两个变量
+                        var W =  ev.clientX - disX + disW;
+                        // var H =  ev.clientY - disY + disH;
+
+                        // if(W<100){
+                        //     W = 100;
+                        // }
+                        // if(W>800){
+                        //     W =800;
+                        // }
+                        // if(H<100){
+                        //     H = 100;
+                        // }
+                        // if(H>500){
+                        //     H = 500;
+                        // }
+                        oPanel.style.width =W +'px';// 拖拽后物体的宽
+                        // oPanel.style.height = H +'px';// 拖拽后物体的高
+
+                    });
+
+                    })
+
             }
 
             console.log(focusNode, e, 44566666666)
