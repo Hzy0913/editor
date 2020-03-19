@@ -3,63 +3,77 @@
 */
 import $ from '../../util/dom-core.js'
 
-function ResizeImg(target, editor) {
-    this.editor = editor
-    this._time = 0
-    this._isShow = false
-    this._isRender = false
-    this._timeoutId = 0
-
+function ResizeImg(editor) {
+    // this.editor = editor
+    // this._time = 0
+    // this._isShow = false
+    // this._isRender = false
+    // this._timeoutId = 0
+    //
     this.textContainer = editor.$textContainerElem[0];
+    //
+    // const { src } = target;
 
-    const { src } = target;
+    // this.$resizeContainer = $(`<p style="position: relative;display:inline-block">
+    //                 <span
+    //                  id="_edit_resize_operator"
+    //                   style="width: 20px;height: 20px; background: red; display: inline-block;
+    //                   position: absolute;right: 0px; bottom: 0"
+    //                   ></span>
+    //                 <img src=${src} id="_edit_resize_img_">
+    //             </p>`)
 
-    this.$resizeContainer = $(`<p style="position: relative;display:inline-block">
-                    <span
-                     id="_edit_resize_operator"
-                      style="width: 20px;height: 20px; background: red; display: inline-block;
-                      position: absolute;right: 0px; bottom: 0"
-                      ></span>
-                    <img src=${src} id="_edit_resize_img_">
-                </p>`)
+
+    this.mousedownHandle = this.mousemoveHandle.bind(this);
+    this.mouseupHandle = this.mouseupHandle.bind(this);
+    this.mousemoveHandle = this.mousemoveHandle.bind(this);
 }
 
 ResizeImg.prototype = {
     constructor: ResizeImg,
 
-    _init() {
-        this.operatorEle = document.getElementById('_edit_resize_operator_');
-        this.imgEle = document.getElementById('_edit_resize_img_');
-
-        this.operatorEle.addEventListener('mousedown', this.mousedownHandle);
-        this.operatorEle.addEventListener('mouseup', this.mouseupHandle);
-    },
-    on(imgTarget) {
-        const { src } = imgTarget;
+    _init(target) {
+        const { src } = target;
+        const imgParent = target.parentElement;
+        imgParent.removeChild(target);// need delete
 
         this.$resizeContainer = $(`<p style="position: relative;display:inline-block">
             <span
-             id="_edit_resize_operator"
-              style="width: 20px;height: 20px; background: red; display: inline-block;
-              position: absolute;right: 0px; bottom: 0"
-              ></span>
+                id="_edit_resize_operator_"
+                style="width: 20px;height: 20px; background: red; display: inline-block;
+                position: absolute;right: 0px; bottom: 0"
+            ></span>
             <img src=${src} id="_edit_resize_img_">
         </p>`);
 
+        $(imgParent).append(this.$resizeContainer);
+    },
+    on(imgTarget) {
+        this._init(imgTarget);
 
+        this.operatorEle = document.getElementById('_edit_resize_operator_');
+        this.imgEle = document.getElementById('_edit_resize_img_');
+        console.log(this.imgEle, 33334)
 
-
+        this.operatorEle.addEventListener('mousedown', this.mousedownHandle);
+        this.textContainer.addEventListener('mouseup', this.mouseupHandle);
     },
 
+    bindContextHandle: (ev) => {
+
+    },
     mousedownHandle(ev) {
         const e = ev || window.event;
+        console.log(this, 3333)
         this.mouseX = e.clientX; // 获取鼠标按下时光标x的值
         this.imgW = this.imgEle.offsetWidth; // 获取图片拖拽前div的宽
 
         this.textContainer.addEventListener('mousemove', this.mousemoveHandle);
     },
     mouseupHandle(ev) {
-        this.operatorEle.removeEventListener('mouseup', this.mouseupHandle);
+        console.log(11111111, 'upupupup')
+        this.operatorEle.removeEventListener('mousedown', this.mousedownHandle);
+        this.textContainer.removeEventListener('mouseup', this.mouseupHandle);
         this.textContainer.removeEventListener('mousemove', this.mousemoveHandle);
 
     },
