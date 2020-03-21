@@ -24,7 +24,7 @@ function ResizeImg(editor) {
     //             </p>`)
 
 
-    this.mousedownHandle = this.mousemoveHandle.bind(this);
+    this.mousedownHandle = this.mousedownHandle.bind(this);
     this.mouseupHandle = this.mouseupHandle.bind(this);
     this.mousemoveHandle = this.mousemoveHandle.bind(this);
 }
@@ -64,7 +64,7 @@ ResizeImg.prototype = {
     },
     mousedownHandle(ev) {
         const e = ev || window.event;
-        console.log(this, 3333)
+        console.log(this, 33333333)
         this.mouseX = e.clientX; // 获取鼠标按下时光标x的值
         this.imgW = this.imgEle.offsetWidth; // 获取图片拖拽前div的宽
 
@@ -79,7 +79,7 @@ ResizeImg.prototype = {
     },
     mousemoveHandle(ev) {
         const e = ev || window.event;
-        console.log(e, 22221111);
+        console.log(e, 'asdasd',22221111);
 
         //拖拽时为了对宽和高 限制一下范围，定义两个变量
         const resizeWidth =  e.clientX - this.mouseX + this.imgW;
