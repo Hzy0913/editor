@@ -17,7 +17,8 @@ ResizeImg.prototype = {
     constructor: ResizeImg,
 
     _init(target) {
-        document.execCommand('underline', null, true)
+        document.execCommand('underline', null, true);
+
         const imgParent = target.parentElement;
 
         imgParent.removeAttribute('style');
@@ -36,7 +37,6 @@ ResizeImg.prototype = {
         this.resizeContainer.style.display = 'inline-block';
 
         $(imgParent).append($operation);
-
     },
     on(imgTarget) {
         this._init(imgTarget);
