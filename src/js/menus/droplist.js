@@ -49,7 +49,6 @@ function DropList(menu, opt) {
             $li.append($elem)
             $list.append($li)
             $li.on('click', e => {
-                return;
                 onClick(value)
 
                 // 隐藏
