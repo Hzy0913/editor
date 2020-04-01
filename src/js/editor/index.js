@@ -12,6 +12,7 @@ import UploadImg from './upload/upload-img.js'
 import { arrForEach, objForEach } from '../util/util.js'
 import { getRandom } from '../util/util.js'
 import ResizeImg from './adjustImg/resize-img.js'
+import AutoState from './autoState/auto-state'
 
 // id，累加
 let editorId = 1
@@ -285,9 +286,22 @@ Editor.prototype = {
         console.log(this, 111112223344)
 
         const resizeImg = new ResizeImg(this);
+        const autoState = new AutoState(this);
+        this.autoState = autoState;
+
+        $(`#${this.textElemId}`).on('click', (e) => {
+            const { target } = e || {};
+
+            autoState.on();
+
+            if (target.tagName === 'IMG') {
+                resizeImg.on(target);
+            }
+        })
+
 
         document.getElementById(this.textElemId).addEventListener('click', (e) => {
-            // return;
+            return;
             const { focusNode } = window.getSelection();
             const { target } = e || {};
 

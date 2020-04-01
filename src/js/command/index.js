@@ -51,6 +51,9 @@ Command.prototype = {
 
         // 触发 onchange
         editor.change && editor.change()
+
+        // 触发 autoState
+        editor.autoState && editor.autoState.on()
     },
 
     // 自定义 insertHTML 事件
