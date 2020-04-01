@@ -12,11 +12,12 @@ function AutoState(editor) {
     this.menuFontColor = document.querySelector('.w-e-icon-pencil2');
 }
 
-ResizeImg.prototype = {
-    constructor: ResizeImg,
+AutoState.prototype = {
+    constructor: AutoState,
 
     getElementStyle(focusNode) {
         let elementStyle;
+
         (function findElement(elem) {
             console.log(elem, 11111)
             if (elem.nodeType === 1) {
@@ -28,33 +29,17 @@ ResizeImg.prototype = {
         })(focusNode);
 
 
-        const { fontSize, color } = elementStyle || {};
+        return elementStyle || {};
 
-        document.querySelector('.menu-font-size').innerHTML = fontSize;
     },
-    on(imgTarget) {
+    
+    on() {
         const { focusNode } = window.getSelection();
-
-        let elementStyle;
-        (function findElement(elem) {
-            console.log(elem, 11111)
-            if (elem.nodeType === 1) {
-                console.log(elem.style)
-
-                return elementStyle = getComputedStyle(elem);
-            }
-            findElement(elem.parentElement);
-        })(focusNode);
-
-
-
-        const { fontSize, color } = elementStyle || {};
-
+        const { fontSize, color } = this.getElementStyle(focusNode);
 
         this.menuFontSize.innerHTML = fontSize;
         this.menuFontColor.style.color = color;
-
     },
 }
 
-export default ResizeImg;
+export default AutoState;
