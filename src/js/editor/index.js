@@ -288,6 +288,7 @@ Editor.prototype = {
         const resizeImg = new ResizeImg(this);
         const autoState = new AutoState(this);
         this.autoState = autoState;
+        setTimeout(() => autoState.on());
 
         $(`#${this.textElemId}`).on('click', (e) => {
             const { target } = e || {};
