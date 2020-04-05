@@ -10,6 +10,7 @@ function AutoState(editor) {
 
     this.menuFontSize = document.querySelector('.menu-font-size');
     this.menuFontColor = document.querySelector('.w-e-icon-pencil2');
+    this.menuFontBgColor = document.querySelector('.w-e-icon-paint-brush');
 }
 
 AutoState.prototype = {
@@ -29,16 +30,22 @@ AutoState.prototype = {
         })(focusNode);
 
 
+        console.log(elementStyle, 44412121)
         return elementStyle || {};
 
     },
-    
+
     on() {
         const { focusNode } = window.getSelection();
-        const { fontSize, color } = this.getElementStyle(focusNode);
+        const { fontSize, color, backgroundColor} = this.getElementStyle(focusNode);
+
+        console.log(backgroundColor, 44412121333)
 
         this.menuFontSize.innerHTML = fontSize;
         this.menuFontColor.style.color = color;
+        if (backgroundColor !== 'rgba(0, 0, 0, 0)') {
+            this.menuFontBgColor.style.color = backgroundColor;
+        }
     },
 }
 
