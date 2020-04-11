@@ -298,38 +298,7 @@ Editor.prototype = {
             if (target.tagName === 'IMG') {
                 resizeImg.on(target);
             }
-        })
-
-
-        document.getElementById(this.textElemId).addEventListener('click', (e) => {
-            return;
-            const { focusNode } = window.getSelection();
-            const { target } = e || {};
-
-            if (target.tagName === 'IMG') {
-                resizeImg.on(target);
-            }
-
-            console.log(focusNode, e, 44566666666)
-            let elementStyle;
-            (function findElement(elem) {
-                console.log(elem, 11111)
-                if (elem.nodeType === 1) {
-                    console.log(elem.style)
-
-                    return elementStyle = getComputedStyle(elem);
-                }
-                findElement(elem.parentElement);
-            })(focusNode);
-
-
-            const { fontSize, color } = elementStyle || {};
-
-            document.querySelector('.menu-font-size').innerHTML = fontSize;
-            console.log(666, fontSize, color)
-            // console.log(window.getSelection(), focusNode, focusNode.style, 'click')
-        }, false)
-
+        });
 
         // -------- 绑定 onblur 事件 --------
         const onblur = config.onblur
