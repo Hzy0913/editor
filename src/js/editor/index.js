@@ -300,6 +300,22 @@ Editor.prototype = {
             }
         });
 
+        $('.w-e-icon-font').on('click', (e) => {
+            var range = document.createRange();
+            const aa = document.querySelector('.w-e-text h1')
+            console.log(aa, 111111)
+
+
+            // var startP = [the p node];
+            // var endLi = [the second li node];
+            range.setStart(aa, 4);
+            range.setEnd(aa, 6);
+
+            const b = window.getSelection()
+            console.log(range, 111111)
+
+        });
+
         // -------- 绑定 onblur 事件 --------
         const onblur = config.onblur
         if (onblur && typeof onblur === 'function') {
